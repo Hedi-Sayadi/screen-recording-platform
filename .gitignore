@@ -46,3 +46,6 @@ Thumbs.db
 
 #cache
 .angular
+
+# Local Azure Storage emulator state
+__azurite_db_*.json
