@@ -1,32 +1,14 @@
-# Browser Screen Recording Platform
+# Screen Recording Platform
 
-Browser-based screen recording application built with Angular and Spring Boot. It captures the selected screen and microphone audio in the browser, previews the recording, uploads video files, and lists stored recordings.
-
-## Features
-
-- Capture screen video with the browser MediaDevices API
-- Capture microphone audio and combine it with the screen stream
-- Record WebM video with RecordRTC
-- Preview recordings before upload
-- Upload local video files
-- Browse recordings stored in Azure Blob Storage or the Azurite emulator
+Browser-based screen recording platform built with Angular and Spring Boot. The frontend captures screen and microphone input, while the backend stores and streams WebM recordings through Azure Blob Storage or the local Azurite emulator.
 
 ## Architecture
-
-The project is maintained across two branches:
-
-| Branch | Contents |
-| --- | --- |
-| `front` | Angular client application |
-| `backend` | Spring Boot REST API and Azure Blob Storage integration |
-
-The frontend communicates with the backend through the `/video` API:
 
 ```text
 Browser
    |
    v
-Angular client (:80 or :4200)
+Angular frontend (:80 or :4200)
    |
    v
 Spring Boot API (:8080)
@@ -35,6 +17,23 @@ Spring Boot API (:8080)
 Azure Blob Storage / Azurite
 ```
 
+## Project structure
+
+```text
+.
+├── frontend/   Angular client
+└── backend/    Spring Boot REST API
+```
+
+## Features
+
+- Capture the selected screen and microphone audio in the browser
+- Preview recordings before upload
+- Upload local video files
+- Store and stream WebM recordings
+- Run locally with the Azurite Azure Storage emulator
+- Build both applications with Docker
+
 ## Prerequisites
 
 - Node.js and npm
@@ -42,41 +41,53 @@ Azure Blob Storage / Azurite
 - Docker and Docker Compose
 - A modern browser with screen-capture support
 
-## Frontend development
+## Frontend
 
 ```bash
+cd frontend
 npm install
 npm start
 ```
 
-Open <http://localhost:4200>. The development environment expects the backend at `http://localhost:8080/video`.
+Open <http://localhost:4200>. The frontend expects the API at `http://localhost:8080/video`.
 
-Build the production bundle:
+Build the Angular application:
 
 ```bash
 npm run build
 ```
 
-## Backend development
-
-Switch to the `backend` branch and follow its README for Spring Boot and Azure Storage setup:
+## Backend
 
 ```bash
-git switch backend
-./mvnw spring-boot:run
+cd backend
+copy .env.example .env
+mvnw.cmd spring-boot:run
 ```
 
-On Windows, use `mvnw.cmd spring-boot:run`.
+On macOS or Linux, use `cp .env.example .env` and `./mvnw spring-boot:run`.
+
+The API is available at <http://localhost:8080>.
+
+### API endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/video/upload` | Upload a video using the `file` multipart field |
+| `GET` | `/video/videoBlobStorage` | List stored video names |
+| `GET` | `/video/{videoName}` | Stream a stored video |
 
 ## Docker
 
-The frontend Dockerfile builds the Angular application and serves it with Nginx. The backend branch contains the Spring Boot Dockerfile and the local Azurite service configuration.
+Run the backend with the local Azurite emulator:
+
+```bash
+cd backend
+docker compose -f docker-compose-front-back.yaml up --build
+```
+
+The frontend Dockerfile builds the Angular application and serves it with Nginx. The backend storage connection is configured with `AZURE_STORAGE_CONNECTION_STRING` in `backend/.env`.
 
 ## Configuration
 
-The frontend API URL is configured in:
-
-- `src/environments/environment.ts`
-- `src/environments/environment.prod.ts`
-
-The backend storage connection is configured through an environment variable. Use the backend branch's `.env.example` as the local configuration template.
+The frontend API URL is configured in `frontend/src/environments/`. The backend uses `backend/.env.example` as the template for Azure Blob Storage or Azurite configuration.

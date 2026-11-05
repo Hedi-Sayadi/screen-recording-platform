@@ -1,52 +1,19 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/.angular/
 
-# compiled output
-/dist
-/target/
-/tmp
-/out-tsc
-# Only exists if Bazel was run
-/bazel-out
+# Backend
+backend/target/
 
-# dependencies
-/node_modules
+# Local configuration
+**/.env
+!.env.example
 
-# profiling files
-chrome-profiler-events*.json
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+# IDE and OS files
+.idea/
+.vscode/
+*.iml
 .DS_Store
 Thumbs.db
-
-#cache
-.angular
-
-# Local Azure Storage emulator state
-__azurite_db_*.json

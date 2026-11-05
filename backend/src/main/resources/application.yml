@@ -1,0 +1,14 @@
+azure:
+  storage:
+      connection-string: ${AZURE_STORAGE_CONNECTION_STRING}
+
+logging:
+  level:
+    root: INFO
+    com.screenrecording: INFO
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
