@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   apiBaseUrl : 'http://localhost:8080/video'
-  // apiBaseUrl : 'http://etap_back_app:8080/video' 
 
 };
 
